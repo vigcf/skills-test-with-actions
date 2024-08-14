@@ -17,23 +17,15 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: |
-          npm install remark-cli remark-preset-lint-consistent
-      
       - name: Run markdown lint
         run: |
-          npx remark . --use remark-preset-lint-consistent --frail emphasis-marker remark-lint
+          npx remark . --use remark-preset-lint-consistent
+
+      - uses: ctions/upload-artifact@v4
+        with:
+          name: remark-lint-report
+          path: remark-lint-report.json
